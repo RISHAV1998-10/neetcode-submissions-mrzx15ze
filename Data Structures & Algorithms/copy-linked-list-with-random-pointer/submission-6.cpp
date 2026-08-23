@@ -1,0 +1,43 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        unordered_map<Node*, Node*> hash;
+        Node* curr = head;
+        while(curr){
+            Node* node = new Node(curr->val);
+            hash[curr] = node;
+            curr = curr->next;
+        }
+
+        // for(auto [node, copy] : hash){
+        //     copy->next = hash[node->next];
+        //     copy->random = hash[node->random];
+        // }
+
+        curr = head;
+        while(curr){
+            Node* copy = hash[curr];
+            copy->next = hash[curr->next];
+            copy->random = hash[curr->random];
+            curr = curr->next;
+        }
+
+        return hash[head];
+    }
+};
